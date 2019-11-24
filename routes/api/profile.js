@@ -6,7 +6,8 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 
 const Profile = require('../../models/Profile');
-const user = require('../../models/User');
+const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 // @route  GET api/profile/me
 // @desc   Get curren tusers profile
@@ -145,7 +146,7 @@ router.get('/user/:user_id', async (req, res) => {
 router.delete('/', auth, async (req, res) => {
   try {
     // Remove user posts
-    // await Post.deleteMany({ user: req.user.id });
+    await Post.deleteMany({ user: req.user.id });
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove user
@@ -237,9 +238,9 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
       console.log("req.params", req.params);
       console.log("removed", eduIds.indexOf(req.params.edu_id));
  */ foundProfile.education.splice(
-        removeIndex,
-        1
-      );
+      removeIndex,
+      1
+    );
       await foundProfile.save();
       return res.status(200).json(foundProfile);
     }
@@ -355,9 +356,9 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
       console.log("req.params", req.params);
       console.log("removed", eduIds.indexOf(req.params.edu_id));
  */ foundProfile.education.splice(
-        removeIndex,
-        1
-      );
+      removeIndex,
+      1
+    );
       await foundProfile.save();
       return res.status(200).json(foundProfile);
     }
@@ -376,9 +377,9 @@ router.get('/github/:username', (req, res) => {
     const options = {
       uri: `https://api.github.com/users/${
         req.params.username
-      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
-        'githubClientId'
-      )}&client_secret=${config.get('githubSecret')}`,
+        }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+          'githubClientId'
+        )}&client_secret=${config.get('githubSecret')}`,
       method: 'GET',
       headers: { 'user-agent': 'node.js' }
     };

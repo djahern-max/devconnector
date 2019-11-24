@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import { deleteExperience } from '../../actions/profile';
 
 const Experience = ({ experience, deleteExperience }) => {
     const experiences = experience.map(exp => (
@@ -46,7 +47,9 @@ const Experience = ({ experience, deleteExperience }) => {
 }
 
 Experience.propTypes = {
-    experience: PropTypes.array.isRequired
+    experience: PropTypes.array.isRequired,
+    deleteExperience: PropTypes.func.isRequired
 }
 
-export default Experience
+
+export default connect(null, { deleteExperience })(Experience);
